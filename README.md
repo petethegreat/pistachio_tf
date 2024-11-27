@@ -19,6 +19,12 @@ docker build -t tf_jupy:0.0.1 ./image
 
 don't know that this will do gpu as yet.
 
+## tensorboard
+in a terminal (from within jupyter), run
+```bash
+tensorboard --logdir pistachio_model_logs --bind_all
+```
+
 ## links 
 
   - [tensorflow docker](https://www.tensorflow.org/install/docker)
