@@ -15,7 +15,7 @@ docker build -t tf_jupy:0.0.1 ./image
 
 ## running 
 
-```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -p 8888:8888 tf_jupy:0.0.1```
+```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -p 8888:8888 -p 6006:6006 tf_jupy:0.0.1```
 
 don't know that this will do gpu as yet.
 
