@@ -19,7 +19,7 @@ services:
     networks:
       - tf_jupy_net
     volumes:
-      - "./mlflow:/tf/notebooks"
+      - "./mlflow:/mlflow/"
     command:
       "mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
 networks:
