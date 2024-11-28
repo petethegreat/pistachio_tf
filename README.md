@@ -15,7 +15,7 @@ docker build -t tf_jupy:0.0.1 ./image
 
 ## running 
 
-```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -p 8888:8888 -p 6006:6006 tf_jupy:0.0.1```
+```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -p 8888:8888 -p 6006:6006 --network pt_mlflow_net tf_jupy:0.0.1```
 
 don't know that this will do gpu as yet.
 
@@ -24,6 +24,25 @@ in a terminal (from within jupyter), run
 ```bash
 tensorboard --logdir pistachio_model_logs --bind_all
 ```
+
+## mlflow for experiment tracking
+
+create a docker network
+```bash
+ docker network create pt_mlflow_net
+ ```
+
+pull mlflow image
+```bash
+ docker pull ghcr.io/mlflow/mlflow:v2.0.1
+ ```
+
+start mlflow 
+```bash 
+ docker run --rm -d --network pt_mlflow_net --name pistachio_mlflow -p 5000:5000  -v $PWD/mlflow:/mlflow ghcr.io/mlflow/mlflow:v2.0.1 mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000
+```
+
+
 
 ## links 
 

@@ -4,6 +4,8 @@ data/
 
 notebooks/*logs
 
+#ignore mlflow tracking/storing
+mlflow/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
