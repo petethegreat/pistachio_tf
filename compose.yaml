@@ -1,0 +1,30 @@
+# compose file for tf jupyterlab + mlflow
+name: pistachio_tf
+services:
+  tensorflow_jupy:
+    image: tf_jupy:0.0.1
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    networks:
+      - tf_jupy_net
+    volumes: 
+      - "./notebooks:/tf/notebooks"
+    links:
+      - "mlflow:pistachio_mlflow"
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.0.1
+    ports:
+      - "5000:5000"
+    networks:
+      - tf_jupy_net
+    volumes:
+      - "./mlflow:/tf/notebooks"
+    command:
+      "mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
+networks:
+  tf_jupy_net:
+    driver: bridge
+    
+
+

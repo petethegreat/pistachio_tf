@@ -42,6 +42,10 @@ start mlflow
  docker run --rm -d --network pt_mlflow_net --name pistachio_mlflow -p 5000:5000  -v $PWD/mlflow:/mlflow ghcr.io/mlflow/mlflow:v2.0.1 mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000
 ```
 
+## get token
+```bash
+docker exec tensorflow_jupy jupyter server list
+```
 
 
 ## links 
