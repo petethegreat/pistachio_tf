@@ -12,12 +12,18 @@ add pandas annd scipy
 docker build -t tf_jupy:0.0.1 ./image
 ```
 
+## running - docker compose 
+container arguments are set in compose.yaml
+to start things, run
+```docker compose up -d```
+this will start the jupy and mlflow containers
+jupyterlab is at localhost:8888
+mlflow ui is at localhost:5000
 
-## running 
-
-```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -p 8888:8888 -p 6006:6006 --network pt_mlflow_net tf_jupy:0.0.1```
-
-don't know that this will do gpu as yet.
+to log into jupyterlab requires a token, this can be found by running
+```bash
+docker exec tensorflow_jupy jupyter server list
+```
 
 ## tensorboard
 in a terminal (from within jupyter), run
@@ -25,27 +31,30 @@ in a terminal (from within jupyter), run
 tensorboard --logdir pistachio_model_logs --bind_all
 ```
 
-## mlflow for experiment tracking
+## running - individual containers 
+it's handy having jupyterlab and mlflow for tracking
 
-create a docker network
+first create a docker network
 ```bash
  docker network create pt_mlflow_net
  ```
+
+then start jupyterlab in this network
+
+```docker run -it --rm --name tensorflow_jupy  -v $PWD/notebooks:/tf/notebooks -v $PWD/mlflow:/mlflow -p 8888:8888 -p 6006:6006 --network pt_mlflow_net tf_jupy:0.0.1```
+
 
 pull mlflow image
 ```bash
  docker pull ghcr.io/mlflow/mlflow:v2.0.1
  ```
 
-start mlflow 
+then start mlflow 
 ```bash 
  docker run --rm -d --network pt_mlflow_net --name pistachio_mlflow -p 5000:5000  -v $PWD/mlflow:/mlflow ghcr.io/mlflow/mlflow:v2.0.1 mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000
 ```
 
-## get token
-```bash
-docker exec tensorflow_jupy jupyter server list
-```
+mounting /mlflow in both containers is like a dirty nfs
 
 
 ## links 

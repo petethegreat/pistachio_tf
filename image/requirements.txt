@@ -9,5 +9,7 @@ mlflow-skinny==2.18.0
 alembic
 sqlalchemy
 sqlparse
+statsmodels
+
 
 
