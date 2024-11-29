@@ -1,5 +1,7 @@
-# compose file for tf jupyterlab + mlflow
 name: pistachio_tf
+
+# compose file for tf jupyterlab + mlflow
+
 services:
   tensorflow_jupy:
     image: tf_jupy:0.0.1
