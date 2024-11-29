@@ -12,6 +12,7 @@ services:
       - tf_jupy_net
     volumes: 
       - "./notebooks:/tf/notebooks"
+      - "./mlflow:/mlflow/"
     links:
       - "mlflow:pistachio_mlflow"
   mlflow:
