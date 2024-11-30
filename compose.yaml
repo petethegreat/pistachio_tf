@@ -15,6 +15,13 @@ services:
       - "./mlflow:/mlflow/"
     links:
       - "mlflow:pistachio_mlflow"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.0.1
     ports:
