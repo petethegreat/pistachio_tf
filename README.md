@@ -1,6 +1,12 @@
 # pistachio tensorflow 
 
-get a pistachio classification model running in tensorflow 
+The initial aim of this project was to get a pistachio classification model running using tensorflow.
+During the process of this, decided that I wanted to use mlflow for experiment tracking, and to run that using a docker container, and set up a docker compose solution to manage containers.
+Current things to do are:
+  - write a notebook for test set evaluation
+  - integrate hyperopt for tuning
+  - try some other model architectures (e.g. wide and deep)
+
 
 ## image
 
