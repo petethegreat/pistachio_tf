@@ -6,7 +6,8 @@ utils for building models
 from typing import List, Dict
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, BatchNormalization, Normalization
 from tensorflow.keras import Model
-from tensorflow.keras.metrics import Accuracy, AUC, Recall, Precision
+# from tensorflow.keras.metrics import Accuracy, AUC, Recall, Precision
+import tensorflow as tf
 
 def get_pistachio_model(
     feature_columns: List[str],

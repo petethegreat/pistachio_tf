@@ -28,7 +28,7 @@ mlflow ui is at localhost:5000
 
 to log into jupyterlab requires a token, this can be found by running
 ```bash
-docker exec tensorflow_jupy jupyter server list
+docker exec pistachio_tf-tensorflow_jupy-1 jupyter server list
 ```
 
 ## tensorboard

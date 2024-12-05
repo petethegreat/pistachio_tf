@@ -12,7 +12,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 
-def load_arff_file(input_arff: str, label_mapping: Dict[str:int]) -> pd.DataFrame:
+def load_arff_file(input_arff: str, label_mapping: Dict[str,int]) -> pd.DataFrame:
     """convert arff file to parquet"""
     if not os.path.exists(input_arff):
         raise ValueError(f"input file '{input_arff}' does not exist")
