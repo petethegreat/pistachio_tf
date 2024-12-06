@@ -4,6 +4,7 @@ data/
 
 notebooks/*logs
 notebooks/plots
+notebooks/trials
 notebooks/pistachio_model_checkpoints
 
 #ignore mlflow tracking/storing
