@@ -50,8 +50,8 @@ def df_to_dataset(
     if shuffle:
         dataset=dataset.shuffle(buffer_size=len(feature_df))
     dataset = dataset\
-        .batch(BATCH_SIZE, drop_remainder=drop)\
-        .prefetch(PREFETCH)
+        .batch(batch_size, drop_remainder=drop)\
+        .prefetch(prefetch)
     return dataset
 ##########################################################
 

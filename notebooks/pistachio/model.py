@@ -44,7 +44,7 @@ def get_pistachio_model(
             units,
             activation='relu',
             name='dense_1',
-            kernel_regularizer=tf.keras.regularizers.L1L2(l1=layer_l1_reg, l2=LAYElayer_l2_regR_1_L2))
+            kernel_regularizer=tf.keras.regularizers.L1L2(l1=layer_l1_reg, l2=layer_l2_reg))
         
         d2 = Dense(
             units,
