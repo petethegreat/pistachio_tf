@@ -72,12 +72,13 @@ def get_pistachio_model(
 
 def get_pistachio_fc_model(
     feature_columns: List[str],
-    feature_crosses: list[tuple[tr,str]],
+    feature_crosses: list[tuple[str,str]],
     train_dataset: tf.data.Dataset,
     n_layers: int=2,
     units: int=10,
     layer_l1_reg: float=0.0,
-    layer_l2_reg: float=0.0
+    layer_l2_reg: float=0.0,
+    wide: bool=False
     ):
     """
     build a pistachio model using functional api
@@ -111,12 +112,11 @@ def get_pistachio_fc_model(
         # crossed features
         crossed_features = []
         for k in feature_crosses:
+            cross_op = tf.keras.layers.Multiply(name=f'cross_normed_{k[0]}_{k[1]}')
             crossed_features.append(
-                tf.math.multiply(
+                cross_op([
                     normalized_inputs[feature_indices[k[0]]],
-                    normalized_inputs[feature_indices[k[1]]],
-                    name=f'cross_normed_{k[0]}_{k[1]}'
-                )
+                    normalized_inputs[feature_indices[k[1]]]])
             )
 
         input_layer = tf.keras.layers.concatenate(normalized_inputs + crossed_features)
@@ -124,13 +124,16 @@ def get_pistachio_fc_model(
         x = input_layer
 
         # densely connected layers - number specified by n_layers
-        for dd in n_layers:
+        for dd in range(n_layers):
             dense_layer = Dense(
                 units,
                 activation='relu',
                 name=f'dense_{dd}',
                 kernel_regularizer=tf.keras.regularizers.L1L2(l1=layer_l1_reg, l2=layer_l2_reg))
             x = dense_layer(x)
+        if wide:
+            # use a wide and deep architecture if specified
+            x = tf.keras.layers.concatenate([x,input_layer])
 
         # output layer
         output_layer = Dense(1, activation='sigmoid', name='predicted_probability')
