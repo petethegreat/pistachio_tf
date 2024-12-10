@@ -22,19 +22,50 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+  database:
+    image: postgres:14.5
+    restart: always
+    env_file:
+      postgres.env
+    volumes: 
+     - pgdata:/var/lib/postgresql/data
+    networks:
+      - tf_jupy_net
+    ports:
+      - 7667:7667
+    command: -p 7667
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -p 7667 -U ${POSTGRES_USER} -d mlflow"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.0.1
+    image: mlflow_pg:2.0.1
     ports:
       - "5000:5000"
     networks:
       - tf_jupy_net
     volumes:
       - "./mlflow:/mlflow/"
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+
     command:
-      "mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
+      # local file store
+      # "mlflow server --backend-store-uri /mlflow --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
+
+      # postgres - dialect+driver://username:password@host:port/database
+      # mlflow db upgrade ${MLFLOW_DB_URI} && 
+      "mlflow server --backend-store-uri ${MLFLOW_DB_URI} --default-artifact-root /mlflow/artifacts --host 0.0.0.0 --port 5000"
 networks:
   tf_jupy_net:
     driver: bridge
+volumes:
+  pgdata:
     
 
 
