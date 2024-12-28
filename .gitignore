@@ -3,6 +3,7 @@
 data/
 
 notebooks/*logs
+notebooks/mlruns
 notebooks/plots
 notebooks/trials
 notebooks/pistachio_model_checkpoints

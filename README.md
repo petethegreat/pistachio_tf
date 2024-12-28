@@ -2,13 +2,39 @@
 
 The initial aim of this project was to get a pistachio classification model running using tensorflow.
 During the process of this, decided that I wanted to use mlflow for experiment tracking, and to run that using a docker container, and set up a docker compose solution to manage containers.
-Current things to do are:
-  - write a notebook for test set evaluation
-  - integrate hyperopt for tuning
-  - try some other model architectures (e.g. wide and deep)
+
+After getting mlflow running initially, I decided that I'd like to use the model registry, which requires a backend database for mlflow. Postgres is being used for this, it's now included in the docker file. The mlflow image does not contain a postgres driver by default, so there's a dockerfile here that adds postgres support to the stock mlflow image.
+
+## building
+
+run 
+```bash
+docker compose build
+```
+
+## running
+
+run
+```bash
+docker compose up -d
+```
+This will start all containers. To get into jupyterlab, a token is required, this can be obtained by running 
+
+```bash
+docker exec pistachio_tf-tensorflow_jupy-1 jupyter server list
+```
 
 
-## image
+## tensorboard
+in a terminal (from within jupyter), run
+```bash
+tensorboard --logdir pistachio_model_logs --bind_all
+```
+
+
+## Old - before compose
+
+## Jupyterlab image
 
 source tf image 
 ```docker pull tensorflow/tensorflow:2.16.1-jupyter```
@@ -16,25 +42,6 @@ add pandas annd scipy
 
 ```bash
 docker build -t tf_jupy:0.0.1 ./image
-```
-
-## running - docker compose 
-container arguments are set in compose.yaml
-to start things, run
-```docker compose up -d```
-this will start the jupy and mlflow containers
-jupyterlab is at localhost:8888
-mlflow ui is at localhost:5000
-
-to log into jupyterlab requires a token, this can be found by running
-```bash
-docker exec pistachio_tf-tensorflow_jupy-1 jupyter server list
-```
-
-## tensorboard
-in a terminal (from within jupyter), run
-```bash
-tensorboard --logdir pistachio_model_logs --bind_all
 ```
 
 ## running - individual containers 

@@ -5,6 +5,7 @@ name: pistachio_tf
 services:
   tensorflow_jupy:
     image: tf_jupy:0.0.1
+    build: ./jupy_image
     ports:
       - "8888:8888"
       - "6006:6006"
@@ -43,6 +44,7 @@ services:
 
   mlflow:
     image: mlflow_pg:2.0.1
+    build: ./mlflow_image
     ports:
       - "5000:5000"
     networks:
