@@ -31,6 +31,9 @@ in a terminal (from within jupyter), run
 tensorboard --logdir pistachio_model_logs --bind_all
 ```
 
+Details about the notebooks/modelling process are in [notebooks.md]
+
+
 
 ## Old - before compose
 
